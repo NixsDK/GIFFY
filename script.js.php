@@ -1,23 +1,44 @@
+const gifContainer = document.getElementById("gif-container");
+const gifCount = document.getElementById("gif-count");
+const searchButton = document.getElementById("search-button");
+const searchInput = document.getElementById("search-input");
 
-const searchForm = document.querySelector('form');
-const searchInput = document.querySelector('#search-input');
-const gifContainer = document.querySelector('#gif-container');
+const displayGifs = (gifs) => {
+    gifContainer.innerHTML = "";
+    gifs.forEach((gif) => {
+        const gifElement = document.createElement("img");
+        gifElement.src = gif.images.fixed_height.url;
+        gifElement.alt = gif.title;
+        gifContainer.appendChild(gifElement);
+    });
+};
 
-searchForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const searchTerm = searchInput.value;
+const fetchGifs = async (searchTerm) => {
+    const response = await fetch(`https://api.giphy.com/v1/gifs/search?q=${searchTerm}&api_key=9ESo17B1ZbqzZYnUhWhPUVm3nJaNz7Lm&limit=${gifCount.value}`);
+    const data = await response.json();
+    displayGifs(data.data);
+};
+
+const fetchTrendingGifs = async () => {
+    const response = await fetch(`https://api.giphy.com/v1/gifs/trending?api_key=Y9ESo17B1ZbqzZYnUhWhPUVm3nJaNz7Lm&limit=${gifCount.value}`);
+    const data = await response.json();
+    displayGifs(data.data);
+};
+
+const searchGifs = () => {
+    const searchTerm = searchInput.value.trim();
     if (searchTerm) {
-        fetch(`/search.php?search=${searchTerm}`)
-        .then(response => response.json())
-            .then(data => {
-            gifContainer.innerHTML = '';
-            data.forEach(gif => {
-                const img = document.createElement('img');
-                img.src = gif.url;
-                img.alt = gif.title;
-                gifContainer.appendChild(img);
-            });
-            })
-            .catch(error => console.error(error));
+        fetchGifs(searchTerm);
+    }
+};
+
+searchButton.addEventListener("click", searchGifs);
+
+searchInput.addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+        searchGifs();
     }
 });
+
+document.addEventListener("DOMContentLoaded", fetchTrendingGifs);
+
