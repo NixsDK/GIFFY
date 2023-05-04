@@ -1,64 +1,24 @@
-<?php
-
-namespace Models;
-
-use GuzzleHttp\Client;
-
-class Giphy
-{
-    private Client $client;
-    private string $apiKey;
-
-    public function __construct(string $apiKey)
-    {
-        $this->client = new Client();
-        $this->apiKey = $apiKey;
-    }
-
-    public function fetchTrending(int $limit): array
-    {
-        $response = $this->client->get('https://api.giphy.com/v1/gifs/trending', [
-            'query' => [
-                'api_key' => $this->apiKey,
-                'limit' => $limit,
-                'offset' => rand(0, 499)
-            ]
-        ]);
-
-        $giphyData = json_decode($response->getBody()->getContents());
-
-        $collection = [];
-        foreach ($giphyData->data as $gif) {
-            $collection[] = [
-                'title' => $gif->title,
-                'url' => $gif->images->fixed_width->url
-            ];
-        }
-
-        return $collection;
-    }
-
-    public function searchGifs(string $searchWord, int $limit): array
-    {
-        $response = $this->client->get('https://api.giphy.com/v1/gifs/search', [
-            'query' => [
-                'api_key' => $this->apiKey,
-                'q' => $searchWord,
-                'limit' => $limit,
-                'offset' => rand(0, 499)
-            ]
-        ]);
-
-        $giphyData = json_decode($response->getBody()->getContents());
-
-        $foundGifs = [];
-        foreach ($giphyData->data as $gif) {
-            $foundGifs[] = [
-                'title' => $gif->title,
-                'url' => $gif->images->fixed_width->url
-            ];
-        }
-
-        return $foundGifs;
-    }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>GIFFY</title>
+</head>
+<body>
+<h1>GIFFY</h1>
+<input type="text" id="search-input" placeholder="Search for GIFs">
+<button id="search-button">Search</button>
+<br>
+<label for="gif-count">Number of GIFs to display:</label>
+<select id="gif-count">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+</select>
+<div id="gif-container"></div>
+<script src="script.js"></script>
+</body>
+</html>
