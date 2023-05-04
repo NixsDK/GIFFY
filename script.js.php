@@ -14,13 +14,13 @@ const displayGifs = (gifs) => {
 };
 
 const fetchGifs = async (searchTerm) => {
-    const response = await fetch(`https://api.giphy.com/v1/gifs/search?q=${searchTerm}&api_key=9ESo17B1ZbqzZYnUhWhPUVm3nJaNz7Lm&limit=${gifCount.value}`);
+    const response = await fetch(`https://api.giphy.com/v1/gifs/search?q=${searchTerm}&api_key=YOUR_API_KEY&limit=${gifCount.value}`);
     const data = await response.json();
     displayGifs(data.data);
 };
 
 const fetchTrendingGifs = async () => {
-    const response = await fetch(`https://api.giphy.com/v1/gifs/trending?api_key=Y9ESo17B1ZbqzZYnUhWhPUVm3nJaNz7Lm&limit=${gifCount.value}`);
+    const response = await fetch(`https://api.giphy.com/v1/gifs/trending?api_key=YOUR_API_KEY&limit=${gifCount.value}`);
     const data = await response.json();
     displayGifs(data.data);
 };
@@ -41,4 +41,3 @@ searchInput.addEventListener("keyup", (event) => {
 });
 
 document.addEventListener("DOMContentLoaded", fetchTrendingGifs);
-

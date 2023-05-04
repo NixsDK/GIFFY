@@ -7,18 +7,23 @@
     <title>GIFFY</title>
 </head>
 <body>
-<h1>GIFFY</h1>
-<input type="text" id="search-input" placeholder="Search for GIFs">
-<button id="search-button">Search</button>
-<br>
-<label for="gif-count">Number of GIFs to display:</label>
-<select id="gif-count">
-    <option value="5">5</option>
-    <option value="10">10</option>
-    <option value="20">20</option>
-    <option value="50">50</option>
-</select>
-<div id="gif-container"></div>
+<div class="container">
+    <h1>GIFFY</h1>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search for GIFs">
+        <button id="search-button">Search</button>
+    </div>
+    <div class="options-container">
+        <label for="gif-count">Number of GIFs to display:</label>
+        <select id="gif-count">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+    <div id="gif-container" class="gif-container"></div>
+</div>
 <script src="script.js"></script>
 </body>
 </html>
